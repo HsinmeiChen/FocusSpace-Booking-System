@@ -1,21 +1,33 @@
 import sqlite3
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash # 用來加密密碼
 from flask_mail import Mail, Message 
+from dotenv import load_dotenv
+
+# 3. 載入 .env 檔案裡的內容
+# 這一行會去尋找 .env 檔，把裡面的變數載入到系統環境中
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "super_secret_key"
+# 4. 修改設定：原本是字串，現在改成 os.getenv('變數名稱')
+# 如果找不到變數，後面可以放第二個參數當作預設值 (例如 'dev_key')
+app.secret_key = os.getenv('SECRET_KEY', 'dev_key') 
 DB_NAME = "focus_space.db"
 
-# --- 👇 新增 Email 設定開始 ---
+# --- 👇 Email 設定 (改成讀取環境變數) ---
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = '你的信箱@gmail.com'  
-app.config['MAIL_PASSWORD'] = '填自己的密碼'      
-app.config['MAIL_DEFAULT_SENDER'] = 'FocusSpace 通知 <你的信箱@gmail.com>'
 
-mail = Mail(app) 
+# 這裡就是魔法發生的地方！✨
+# 程式會去問系統：「有沒有一個叫 MAIL_USERNAME 的變數？」
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = f"FocusSpace 通知 <{os.getenv('MAIL_USERNAME')}>"
+
+mail = Mail(app)
+
 # --- 🔺 新增 Email 設定結束 ---
 
 
