@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>註冊 - FocusSpace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex align-items-center py-5">
+    <div class="container" style="max-width: 500px;">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">住戶註冊</div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label>設定帳號</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>設定密碼</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+		    <div class="mb-3">
+  		        <label>電子信箱</label>
+  		        <input type="email" name="email" class="form-control" placeholder="user@example.com" required>
+		    </div>
+                    <hr>
+                    <h5>住戶資訊</h5>
+                    <div class="row">
+                        <div class="col-4">
+                            <label>樓層</label>
+                            <input type="text" name="floor" class="form-control" placeholder="8" required>
+                        </div>
+                        <div class="col-4">
+                            <label>棟別</label>
+                            <input type="text" name="building" class="form-control" placeholder="B" required>
+                        </div>
+                        <div class="col-4">
+                            <label>戶號</label>
+                            <input type="text" name="unit" class="form-control" placeholder="3" required>
+                        </div>
+                    </div>
+                    <div class="form-text mb-3">顯示範例：8樓 B棟 之3</div>
+                    
+                    <button type="submit" class="btn btn-success w-100">註冊並登入</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
