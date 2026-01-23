@@ -54,7 +54,7 @@
 
    ```bash
 
-   git clone \[https://github.com/HsinmeiCho/FocusSpace-Booking-System.git](https://github.com/HsinmeiCho/FocusSpace-Booking-System.git)
+   git clone \[https://github.com/HsinmeiChen/FocusSpace-Booking-System.git](https://github.com/HsinmeiChen/FocusSpace-Booking-System.git)
 
    cd FocusSpace-Booking-System
 
