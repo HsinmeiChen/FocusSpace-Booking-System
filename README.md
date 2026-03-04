@@ -1,10 +1,8 @@
-\# FocusSpace - 會議室預約小工具 
-
-
+\# FocusSpace - 會議室預約小工具
 
 這是我用 Python Flask 練習寫的一個會議室預約系統。
 
-主要目的是解決公設空間預約使用的問題。系統很簡單，但該有的防呆功能都有。
+
 
 
 
@@ -12,33 +10,21 @@
 
 
 
-\- 看誰預約：首頁直接列出所有預約紀錄，哪個時段被誰訂走，一目了然。
-
-\- 防撞期機制：如果你選的時間已經有人訂了（哪怕只重疊一分鐘），系統會擋住你，不讓你預約。
-
-\- Email 通知：預約成功後，系統會自動寄一封信到你的信箱，當作預約證明。
-
-\- 分身分登入：
-
-  - 一般人：只能預約。
-
-  - 管理員：可以登入後台，把別人亂訂的或是測試用的預約刪掉。
+* 日曆看板介面：整合 FullCalendar.js，提供週視圖與日視圖，方便查看時段佔用情況。
+* 快速預約機制：使用者可直接點擊日曆上的空白時段，系統會自動將日期與時間填入預約表單。
+* 預約衝突比對：後端程式會檢查時間區間，若與現有紀錄重疊則無法預約。
+* 時長與時效管理：單次預約上限為 4 小時，系統會自動在列表隱藏已過期的預約紀錄。
+* Email 通知系統：預約完成後，系統會自動發送電子郵件至使用者信箱作為證明。
+* 權限管理：區分一般使用者與管理員，管理員可進入後台管理帳號與預約資料。
 
 
 
 \##  用到的技術
 
-
-
-這個專案雖然不大，但我練習了開發的完整流程：
-
-\- 後端：Python (Flask) - 處理網頁邏輯。
-
-\- 資料庫：SQLite - 為了練習 SQL 邏輯，我沒有用套件，而是直接寫 SQL 語法來抓取和比對資料。
-
-\- 前端：HTML + Bootstrap 5 - 簡單乾淨的排版。
-
-\- 版控：Git \& GitHub。
+* 後端：Python / Flask
+* 資料庫：SQLite 3 (手寫 SQL 語法，不使用 ORM 套件)
+* 前端：HTML / Bootstrap 5 / FullCalendar / Vanilla JavaScript
+* 安全性：Werkzeug 密碼加密 / .env 環境變數管理
 
 
 
@@ -52,17 +38,19 @@
 
 1\. \*\*下載專案\*\*
 
-   ```bash
+git clone https://github.com/你的帳號/FocusSpace-Booking-System.git
 
-   git clone \[https://github.com/HsinmeiChen/FocusSpace-Booking-System.git](https://github.com/HsinmeiChen/FocusSpace-Booking-System.git)
-
-   cd FocusSpace-Booking-System
+cd FocusSpace-Booking-System
 
 
 
-2. \*\*安裝所需檔案\*\*
+2. \*\*環境準備\*
 
-pip install flask flask-mail werkzeug
+python -m venv venv
+
+.\\venv\\Scripts\\activate
+
+pip install flask flask-mail python-dotenv werkzeug
 
 
 
