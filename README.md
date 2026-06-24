@@ -22,7 +22,7 @@
 \##  用到的技術
 
 * 後端：Python / Flask
-* 資料庫：SQLite 3 (手寫 SQL 語法，不使用 ORM 套件)
+* 資料庫：SQLite 3
 * 前端：HTML / Bootstrap 5 / FullCalendar / Vanilla JavaScript
 * 安全性：Werkzeug 密碼加密 / .env 環境變數管理
 
