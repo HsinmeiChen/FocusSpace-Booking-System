@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message 
 from dotenv import load_dotenv
-from datetime import datetime, timedelta # [新增] 處理時間邏輯
+from datetime import datetime, timedelta 
 
 load_dotenv()
 
@@ -12,7 +12,6 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'dev_key') 
 DB_NAME = "focus_space.db"
 
-# --- Email 設定 ---
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -31,7 +30,6 @@ def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # [修正] Users 表格補上 email 欄位
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,7 +80,6 @@ def check_overlap(cursor, room_id, start_time, end_time):
     cursor.execute(query, (room_id, end_time, start_time))
     return cursor.fetchone()[0] > 0
 
-# --- Routes ---
 
 @app.route('/')
 def index():
@@ -95,7 +92,6 @@ def index():
     cursor.execute('SELECT * FROM rooms')
     rooms = cursor.fetchall()
 
-    # [優化] 自動釋放時段：只顯示 end_time 大於現在時間的紀錄
     now_str = datetime.now().strftime('%Y-%m-%d %H:%M')
     cursor.execute('''
         SELECT rooms.name as room_name, users.username, users.floor, users.building, users.unit,
@@ -111,7 +107,6 @@ def index():
     conn.close()
     return render_template('index.html', rooms=rooms, bookings=bookings, user=session)
 
-# [新增] API 路由：提供給 FullCalendar 顯示
 @app.route('/api/bookings')
 def get_bookings_api():
     conn = get_db_connection()
@@ -128,7 +123,6 @@ def get_bookings_api():
     conn.close()
     return jsonify(rows)
 
-# --- 補回登入、註冊與登出功能 ---
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -206,7 +200,6 @@ def book_room():
     start_time_str = f"{date_part} {hour_part}:{minute_part}"
     end_time_str = request.form['end_time'].replace('T', ' ')
 
-    # [新增] 時數限制邏輯
     try:
         fmt = '%Y-%m-%d %H:%M'
         start_dt = datetime.strptime(start_time_str, fmt)
@@ -242,7 +235,6 @@ def book_room():
         ''', (room_id, session['user_id'], start_time_str, end_time_str))
         conn.commit()
 
-        # 寄信邏輯 (維持不變)
         try:
             room_name = cursor.execute('SELECT name FROM rooms WHERE id = ?', (room_id,)).fetchone()[0]
             user_email = cursor.execute('SELECT email FROM users WHERE id = ?', (session['user_id'],)).fetchone()[0]
@@ -257,5 +249,3 @@ def book_room():
 
     conn.close()
     return redirect(url_for('index'))
-
-# ... 其他路由 (register, login, logout, admin_users) 保持原樣 ...
