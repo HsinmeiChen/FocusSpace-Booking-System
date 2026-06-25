@@ -1,8 +1,5 @@
 \# FocusSpace - 會議室預約小工具
 
-這是我用 Python Flask 練習寫的一個會議室預約系統。
-
-
 
 
 
